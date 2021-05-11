@@ -1,0 +1,101 @@
+plugins {
+    id 'com.android.application'
+    id 'com.chaquo.python'
+}
+apply plugin: 'com.android.application'
+apply plugin: 'com.chaquo.python' //添加行 20201229
+android {
+    compileSdkVersion 29
+    buildToolsVersion "29.0.3"
+
+    defaultConfig {
+        applicationId "com.fangte.yjy.speechrecogni"
+        minSdkVersion 18
+        targetSdkVersion 29
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        sourceSets {
+            main {
+                python {
+                    srcDirs = ["src/main/python"]
+                }
+            }
+        }
+        python {
+            buildPython "D:/python20201229/anaconda/python.exe"
+//            buildPython "D:/python20201229/anaconda/python.exe","-3.8"
+            pip {
+//                install "glob"
+//                install "pickle"
+//                install "numpy"
+
+                //python 库安装较慢可以使用一下库 20210125
+//                options "--index-url", "https://pypi.tuna.tsinghua.edu.cn/simple/"
+//                options "--extra-index-url", "http://pypi.mirrors.ustc.edu.cn/simple/"
+                install "tensorflow" //20210324 默认2.1
+//                install "tensorflow==1.15"
+                install "keras==2.3.1"
+                install "librosa"
+//                install "tensorflow==2.2"
+
+                install "speechrecognition"
+                install "python_speech_features"
+                install "numpy"
+//                install "PyAudio"
+            }
+        }
+//        python {
+            //20201230
+//            buildPython "C:/Python27/python.exe"
+//            buildPython "C:\\Python27\\python.exe"
+//            buildPython "Python27"
+
+//            buildPython "D:/python20201229/anaconda/envs/tensorflow/python.exe"
+//            buildPython "D:\\python20201229\\anaconda\\envs/tensorflow\\python.exe"
+//            buildPython "python"
+//            buildPython "/usr/local/bin/python3"
+//            buildPython "python3"
+//            pip {
+//                install "keras"
+//            }
+//            pip {
+//                install "six"
+//            }
+//        }
+        ndk {
+            abiFilters "armeabi-v7a"
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+
+    implementation 'com.android.support:appcompat-v7:26.1.0'
+    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    implementation 'com.google.android.material:material:1.2.1'
+    testImplementation 'junit:junit:4.+'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+    //图片加载
+    implementation 'com.github.bumptech.glide:glide:3.7.0'
+
+    //RxPermissions 6.0系统以上权限授权
+    implementation 'com.tbruyelle.rxpermissions2:rxpermissions:0.9.4@aar'
+    //RxJava2
+    implementation "io.reactivex.rxjava2:rxjava:2.0.0"
+    implementation project(':voicerecorder')
+    implementation project(':lib_recorder')
+}
